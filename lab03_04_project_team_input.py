@@ -216,6 +216,40 @@ def choose_team(teams):
         return None
 
 
+
+def delete_team(teams):
+    if not teams:
+        print("Chưa có nhóm dự án.")
+        return False
+
+    print("\n--- DANH SÁCH DỰ ÁN ---")
+    for i, team in enumerate(teams, 1):
+        print(f"{i}. {team.projectCode} - {team.projectName}")
+
+    try:
+        index = int(input("Chọn dự án cần xóa: ")) - 1
+        if index < 0 or index >= len(teams):
+            print("Dự án không hợp lệ.")
+            return False
+
+        team = teams[index]
+        confirm = input(
+            f'Bạn có chắc muốn xóa dự án "{team.projectCode} - {team.projectName}"? (y/n): '
+        ).lower()
+
+        if confirm == "y":
+            teams.pop(index)
+            print("Xóa dự án thành công.")
+            return True
+
+        print("Đã hủy xóa dự án.")
+        return False
+
+    except ValueError:
+        print("Lựa chọn không hợp lệ.")
+        return False
+
+
 def main():
     employees = []
     teams = []
@@ -234,6 +268,7 @@ def main():
         print("8. Xóa nhân sự khỏi nhóm")
         print("9. Hiển thị nhóm")
         print("10. Tính tổng chi phí nhóm")
+        print("11. Xóa dự án")
         print("0. Thoát")
         choice = input("\nChọn chức năng: ").strip()
 
@@ -339,6 +374,9 @@ def main():
                 team = choose_team(teams)
                 if team is not None:
                     print(f"Tổng chi phí/tháng: {team.calculateTotalMonthlyCost():,.0f}")
+
+            elif choice == "11":
+                delete_team(teams)
 
             elif choice == "0":
                 print("\nKẾT THÚC CHƯƠNG TRÌNH.")
